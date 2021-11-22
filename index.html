@@ -4,110 +4,49 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
     <title>Github Profiles</title>
-    <style>
-      body {
-        margin: 0;
-        width: 100%;
-        display: flex;
-        flex: 1;
-        padding: 10px;
-      }
-      .search_bar {
-        left: 40%;
-        position: fixed;
-        top: 30%;
-      }
-      input {
-        width: 100%;
-      }
-      .hidden {
-        display: none;
-      }
-      .visible {
-        display: block;
-      }
-      li {
-        list-style: none;
-      }
-    </style>
-    <script type="text/javascript">
-      async function handleSubmit() {
-        const userName = document.querySelector("#userName").value;
-        const user = document.querySelector("#username").value;
-        if (user !== userName) {
-          document.querySelector("ul").textContent = " ";
-        }
-        try {
-          const data = await Promise.all([
-            await fetch(`https://api.github.com/users/${userName}`),
-            await fetch(`https://api.github.com/users/${userName}/repos`),
-          ]);
-          const user = await data[0].json();
-          const repos = await data[1].json();
-
-          document.querySelector("#username").innerText = userName;
-          document.querySelector("#avatar").src = user.avatar_url;
-          document.querySelector("#avatar").alt = "user avatar_url";
-          document.querySelector("#avatar").width = "100";
-          document.querySelector("#avatar").height = "100";
-          document.querySelector("#followers").innerText = user.followers;
-          document.querySelector("#repo_count").innerText = user.public_repos;
-
-          repos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-          const four_latest_repos = repos.slice(0, 4);
-          console.log("repos", four_latest_repos);
-
-          const list = document.querySelector("#repos");
-
-          four_latest_repos.forEach((repo) => {
-            let li = document.createElement("LI");
-            let anchor = document.createElement("a");
-            li.textContent = repo.name;
-            anchor.href = repo.clone_url;
-            anchor.target = "_blank";
-            anchor.appendChild(li);
-            list.appendChild(anchor);
-          });
-
-          if (!data[0].ok) {
-            const err = document.querySelector("#err");
-            err.innerHTML =
-              user.message || "Something went wrong, PLease try again.";
-            err.classList.replace("hidden", "visible");
-          }
-          //   console.log(repos);
-        } catch (error) {
-          const err = document.querySelector("#err");
-          err.innerHTML =
-            error.message || "Something went wrong, PLease try again.";
-          err.classList.replace("hidden", "visible");
-          console.log("error", error);
-        }
-      }
-    </script>
+    <script src="myscripts.js"></script>
   </head>
   <body>
     <main>
-      <section class="search_bar">
-        <p id="err" class="hidden"></p>
-        <form
-          onsubmit="handleSubmit(); return false;"
-          action="https://api.github.com/users"
-          method="get"
-          id="form"
-        >
-          <input name="USERNAME" required id="userName" type="search" />
-          <input type="submit" value="Search" />
-        </form>
-      </section>
-      <section id="display">
-        <img id="avatar" />
-        <p id="username"></p>
-        <p id="followers"></p>
-        <p id="repo_count"></p>
-        <ul id="repos"></ul>
-      </section>
+      <div class="container">
+        <section class="form_section">
+          <p id="err" class="hidden"></p>
+          <form
+            onsubmit="handleSubmit(); return false;"
+            action="https://api.github.com/users"
+            method="get"
+            id="form"
+            class="form_field"
+          >
+            <div class="search_bar">
+              <input
+                name="USERNAME"
+                required
+                id="userName"
+                type="search"
+                class="input"
+              />
+              <input type="submit" value="Search" class="search" />
+            </div>
+          </form>
+        </section>
+        <section id="display" class="card">
+          <div class="user-image">
+            <img id="avatar" />
+          </div>
+          <div class="user-detail">
+            <p id="name"></p>
+            <p id="username"></p>
+            <p id="followers"></p>
+            <p id="repo_count"></p>
+          </div>
+          <div class="user-repos">
+            <ul id="repos"></ul>
+          </div>
+        </section>
+      </div>
     </main>
   </body>
 </html>
