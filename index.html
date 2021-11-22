@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Github Profiles</title>
+    <script src="myscripts.js"></script>
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <section class="form_section">
+          <p id="err" class="hidden"></p>
+          <form
+            onsubmit="handleSubmit(); return false;"
+            action="https://api.github.com/users"
+            method="get"
+            id="form"
+            class="form_field"
+          >
+            <div class="search_bar">
+              <input
+                name="USERNAME"
+                required
+                id="userName"
+                type="search"
+                class="input"
+              />
+              <input type="submit" value="Search" class="search" />
+            </div>
+          </form>
+        </section>
+        <section id="display" class="card">
+          <div class="user-image">
+            <img id="avatar" />
+          </div>
+          <div class="user-detail">
+            <p id="name"></p>
+            <p id="username"></p>
+            <p id="followers"></p>
+            <p id="repo_count"></p>
+          </div>
+          <div class="user-repos">
+            <ul id="repos"></ul>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
